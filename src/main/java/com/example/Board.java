@@ -141,6 +141,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     }
 
     @Override
+
+    //precondition: The appropriate piece is being selected by the mouse
+    //postcondition: The selected piece is stored in currPiece, legal moves are highlighted, and the square before the 
+    //piece was moved is stored in fromMoveSquare.
+
     public void mousePressed(MouseEvent e) {
         currX = e.getX();
         currY = e.getY();
@@ -162,7 +167,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     // should move the piece to the desired location only if this is a legal move.
     // use the pieces "legal move" function to determine if this move is legal, then
     // complete it by moving the new piece to it's new board location.
+
     @Override
+
+    //precondition: The piece is released by the mouse
+    //postcondition: If the piece is moved to a legal square, then it is placed, and otherwise it goes back to the original square.
     public void mouseReleased(MouseEvent e) {
         endSquare = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
 

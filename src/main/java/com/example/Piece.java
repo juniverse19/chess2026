@@ -49,8 +49,55 @@ public class Piece {
     // TO BE IMPLEMENTED!
     //return a list of every square that is "controlled" by this piece. A square is controlled
     //if the piece capture into it legally.
+
+    //precondition: board is set up properly, start is within range of the board, board is 8x8
+    //postcondition: return all possible moves the piece can move to, ignoring if the square is occupied or not.
+
     public ArrayList<Square> getControlledSquares(Square[][] board, Square start) {
-     return null;
+        ArrayList<Square> controlledSquare = new ArrayList<Square>();
+
+
+        if (start.getCol()<7) {
+            Square right = board[start.getRow()][start.getCol() + 1];
+            controlledSquare.add(right);
+        }
+
+        if (start.getCol()>0) {
+            Square left = board[start.getRow()][start.getCol() - 1];
+            controlledSquare.add(left);
+        }
+
+        if (start.getRow()>0) {
+            Square up = board[start.getRow() - 1][start.getCol()];
+            controlledSquare.add(up);
+        }
+
+        if (start.getRow()<7) {
+            Square down = board[start.getRow() + 1][start.getCol()];
+            controlledSquare.add(down);
+        }
+
+        if (start.getCol()<7 && start.getRow()>0) {
+            Square upRight = board[start.getRow() - 1][start.getCol() + 1];
+            controlledSquare.add(upRight);
+        }
+
+        if (start.getCol()>0 && start.getRow()>0) {
+            Square upLeft = board[start.getRow() - 1][start.getCol() - 1];
+            controlledSquare.add(upLeft);
+        }
+
+        if (start.getCol()<7 && start.getRow()<7) {
+            Square downRight = board[start.getRow() - 1][start.getCol() - 1];
+            controlledSquare.add(downRight);
+        }
+
+        if (start.getCol()>0 && start.getRow()<7) {
+            Square downLeft = board[start.getRow() - 1][start.getCol() - 1];
+            controlledSquare.add(downLeft);
+        }
+
+    return controlledSquare;
     }
     
 
@@ -62,6 +109,8 @@ public class Piece {
     //going to score any points.
 
     //The king moves one square in every direction.
+    //precondition: board is set up properly, start is within range of the board, board is 8x8
+    //postcondition: return all possible legal moves the piece can move to, checking if the square is occupied or not
 
     public ArrayList<Square> getLegalMoves(Board b, Square start){
 	    ArrayList<Square> moves = new ArrayList<Square>();
