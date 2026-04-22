@@ -102,9 +102,29 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     // it's up to you how you wish to arrange your pieces.
     void initializePieces() {
 
-        board[7][4].put(new Piece(true, RESOURCES_WKING_PNG));
-        board[0][4].put(new Piece(true, RESOURCES_BKING_PNG));
+        board[0][4].put(new King(false, RESOURCES_BKING_PNG));
+        board[0][0].put(new King(false, RESOURCES_BROOK_PNG));
+        board[0][7].put(new King(false, RESOURCES_BROOK_PNG));
+        board[0][6].put(new King(false, RESOURCES_BKNIGHT_PNG));
+        board[0][1].put(new King(false, RESOURCES_BKNIGHT_PNG));
+        board[0][2].put(new King(false, RESOURCES_BBISHOP_PNG));
+        board[0][5].put(new King(false, RESOURCES_BBISHOP_PNG));
+        board[0][3].put(new King(false, RESOURCES_BQUEEN_PNG));
+        for(int i =0; i < 8; i++){
+            board[1][i].put(new King(false, RESOURCES_BPAWN_PNG));
+        }
 
+        board[7][4].put(new King(true, RESOURCES_WKING_PNG));
+        board[7][0].put(new King(true, RESOURCES_WROOK_PNG));
+        board[7][7].put(new King(true, RESOURCES_WROOK_PNG));
+        board[7][6].put(new King(true, RESOURCES_WKNIGHT_PNG));
+        board[7][1].put(new King(true, RESOURCES_WKNIGHT_PNG));
+        board[7][2].put(new King(true, RESOURCES_WBISHOP_PNG));
+        board[7][5].put(new King(true, RESOURCES_WBISHOP_PNG));
+        board[7][3].put(new King(true, RESOURCES_WQUEEN_PNG));
+        for(int i = 0; i < 8; i++){
+            board[6][i].put(new King(true, RESOURCES_WPAWN_PNG));
+        }
     }
 
     public Square[][] getSquareArray() {
@@ -115,7 +135,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         return whiteTurn;
     }
 
-    public void setCurrPiece(Piece p) {
+    public void setCurrPiece(King p) {
         this.currPiece = p;
     }
 
@@ -163,6 +183,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         repaint();
     }
 
+
+    private boolean isInCheck(boolean color){
+        return false;
+    }
+
     // TO BE IMPLEMENTED!
     // should move the piece to the desired location only if this is a legal move.
     // use the pieces "legal move" function to determine if this move is legal, then
@@ -178,8 +203,18 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         // using currPiece
         if(fromMoveSquare!= null){
             if((currPiece != null) && (currPiece.getLegalMoves(this, fromMoveSquare).contains(endSquare))){
+                Piece taken = endSquare.getOccupyingPiece();
+                
                 endSquare.put(currPiece);
                 fromMoveSquare.removePiece();
+
+                if(isInCheck(whiteTurn)){
+                    fromMoveSquare.put(currPiece);
+                    endSquare.put(taken);
+                } else{
+                    whiteTurn = !whiteTurn;
+                }
+
             }
             fromMoveSquare.setDisplay(true);
         }

@@ -66,8 +66,8 @@ public class Square extends JComponent {
     
     //precondition: none
     //postcondition: the given piece p is placed into this square. p could be null.
-    public void put(Piece p) {
-        this.occupyingPiece = p;
+    public void put(Piece captured) {
+        this.occupyingPiece = captured;
     }
     
     //precondition: none
