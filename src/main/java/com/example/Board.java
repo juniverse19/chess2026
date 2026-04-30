@@ -9,6 +9,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -184,9 +185,52 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     }
 
 
-    private boolean isInCheck(boolean color){
+    //precondition: The piece is released by the mouse
+    //postcondition: If the piece is moved to a legal square, then it is placed, otherwise go back to original square.
+    
+    private boolean isInCheck(Boolean kingColor) {
+        //check where the king is through a loop?
+
+        int currKingRow = -1;
+        int currKingCol = -1;
+        for (int r = 0; r < board.length; r++) {
+            for (int c = 0; c < board[0].length; c++) {
+                if (board[r][c].isOccupied()) {
+                    Piece p = board[r][c].getOccupyingPiece();
+                    if (p.getColor() == kingColor && p instanceof King) {
+                        currKingRow = r;
+                        currKingCol = c;
+                    }
+                }
+            }
+        }
+
+        if (currKingRow == -1) {
+            return false;
+        }
+
+        for (int r = 0; r < board.length; r++) {
+            for (int c = 0; c < board[0].length; c++) {
+                if (board[r][c].isOccupied() && board[r][c].getOccupyingPiece().getColor() != kingColor) {
+                    Piece oppPiece = board[r][c].getOccupyingPiece();
+                    if (oppPiece.getColor() != kingColor) {
+                        ArrayList<Square> controlledSquares = oppPiece.getControlledSquares(board, board[r][c]);
+                        if (controlledSquares != null) {
+                            for (int i = 0; i < controlledSquares.size(); i++) {
+                                if (controlledSquares.get(i).equals(board[currKingRow][currKingCol])) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
         return false;
     }
+
 
     // TO BE IMPLEMENTED!
     // should move the piece to the desired location only if this is a legal move.
