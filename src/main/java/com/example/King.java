@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 
 //you will need to implement two functions in this file.
 public class King extends Piece{
-   
+
     public King(boolean isWhite, String img_file) {
         super(isWhite, img_file);
     }
@@ -61,12 +61,12 @@ public class King extends Piece{
         }
 
         if (start.getCol()<7 && start.getRow()<7) {
-            Square downRight = board[start.getRow() - 1][start.getCol() - 1];
+            Square downRight = board[start.getRow() + 1][start.getCol() + 1];
             controlledSquare.add(downRight);
         }
 
         if (start.getCol()>0 && start.getRow()<7) {
-            Square downLeft = board[start.getRow() - 1][start.getCol() - 1];
+            Square downLeft = board[start.getRow() + 1][start.getCol() - 1];
             controlledSquare.add(downLeft);
         }
         
